@@ -28,10 +28,12 @@
     "migrate": "node ./dist/migrate",
     "prestart": "npm run build",
     "start": "node -r source-map-support/register .",
+    "dev": "nodemon -r source-map-support/register .",
     "prepublishOnly": "npm run test"
   },
   "repository": {
-    "type": "git"
+    "type": "git",
+    "url": "git+https://github.com/rammsesgit/lb4-todo-list.git"
   },
   "author": "Isar Ramses Cadena Gaona",
   "license": "MIT",
@@ -55,16 +57,28 @@
   },
   "devDependencies": {
     "@loopback/build": "^2.0.11",
-    "source-map-support": "^0.5.13",
+    "@loopback/eslint-config": "^4.1.0",
     "@loopback/testlab": "^1.8.1",
     "@types/node": "^10.14.18",
-    "@typescript-eslint/parser": "^2.3.0",
     "@typescript-eslint/eslint-plugin": "^2.3.0",
-    "@loopback/eslint-config": "^4.1.0",
+    "@typescript-eslint/parser": "^2.3.0",
     "eslint": "^6.4.0",
     "eslint-config-prettier": "^6.3.0",
     "eslint-plugin-eslint-plugin": "^2.1.0",
     "eslint-plugin-mocha": "^6.1.1",
+    "nodemon": "^1.19.2",
+    "source-map-support": "^0.5.13",
     "typescript": "~3.6.3"
+  },
+  "nodemonConfig": {
+    "verbose": true,
+    "watch": [
+      "src/"
+    ],
+    "ignore": [
+      "dist/*"
+    ],
+    "ext": "ts",
+    "exec": "npm start"
   }
 }
