@@ -23,7 +23,7 @@ import {TodoMongoRepository} from '../repositories';
 export class TodoMongoController {
   constructor(
     @repository(TodoMongoRepository)
-    public todoMongoRepository : TodoMongoRepository,
+    public todoMongoRepository: TodoMongoRepository,
   ) {}
 
   @post('/todo-mongos', {
@@ -40,13 +40,14 @@ export class TodoMongoController {
         'application/json': {
           schema: getModelSchemaRef(TodoMongo, {
             title: 'NewTodoMongo',
-            exclude: ['id'],
+            exclude: ['id', 'entry'],
           }),
         },
       },
     })
     todoMongo: Omit<TodoMongo, 'id'>,
   ): Promise<TodoMongo> {
+    todoMongo.entry = (await this.count()).count + 1;
     return this.todoMongoRepository.create(todoMongo);
   }
 
@@ -59,7 +60,8 @@ export class TodoMongoController {
     },
   })
   async count(
-    @param.query.object('where', getWhereSchemaFor(TodoMongo)) where?: Where<TodoMongo>,
+    @param.query.object('where', getWhereSchemaFor(TodoMongo))
+    where?: Where<TodoMongo>,
   ): Promise<Count> {
     return this.todoMongoRepository.count(where);
   }
@@ -77,7 +79,8 @@ export class TodoMongoController {
     },
   })
   async find(
-    @param.query.object('filter', getFilterSchemaFor(TodoMongo)) filter?: Filter<TodoMongo>,
+    @param.query.object('filter', getFilterSchemaFor(TodoMongo))
+    filter?: Filter<TodoMongo>,
   ): Promise<TodoMongo[]> {
     return this.todoMongoRepository.find(filter);
   }
@@ -99,7 +102,8 @@ export class TodoMongoController {
       },
     })
     todoMongo: TodoMongo,
-    @param.query.object('where', getWhereSchemaFor(TodoMongo)) where?: Where<TodoMongo>,
+    @param.query.object('where', getWhereSchemaFor(TodoMongo))
+    where?: Where<TodoMongo>,
   ): Promise<Count> {
     return this.todoMongoRepository.updateAll(todoMongo, where);
   }

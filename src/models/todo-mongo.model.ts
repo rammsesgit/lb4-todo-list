@@ -26,6 +26,10 @@ export class TodoMongo extends Entity {
   })
   isDone?: boolean;
 
+  @property({
+    type: 'number',
+  })
+  entry?: number;
 
   constructor(data?: Partial<TodoMongo>) {
     super(data);
